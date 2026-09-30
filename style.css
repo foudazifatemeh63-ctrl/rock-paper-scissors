@@ -1,60 +1,135 @@
-body{
-    text-align: center;
-  font-family: Arial, sans-serif;
-  padding-top: 50px;
-  background-color: #200b53;
-    direction: rtl;}
-button {
-  padding: 10px 20px;
-  margin: 5px;
-  font-size: 18px;
-  cursor: pointer;
-  transition: 0.2s;
-  border: none;
-border-radius: 8px;
+* {
+    box-sizing: border-box;
 }
-#result {
-  margin-top: 30px;
-  font-size: 24px;
-  font-weight: bold;
+
+body {
+    margin: 0;
+    padding: 20px;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, sans-serif;
+    background: #f5f5f5;
 }
-#user-choice,
-#computer-choice {
-  font-size: 18px;
-  margin: 10px;
-}
-button:hover {
-  transform: scale(1.05);
-}
+
 .game {
-  width: 400px;
-  margin: 0 auto;
-  padding: 30px;
-  background-color: rgb(236, 233, 199);
-  border-radius: 15px;
-box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    width: 100%;
+    max-width: 600px;
+    padding: 30px;
+    text-align: center;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
-#rock {
-  background-color: #9bf1b1;
+h1 {
+    margin-top: 0;
+    font-size: 32px;
 }
 
-#paper {
-  background-color: #cdb3f2;
+button {
+    padding: 12px 20px;
+    margin: 5px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
 }
 
-#scissors {
-  background-color: #feb1d9;
-}
-#user-choice,
-#computer-choice {
-  font-size: 18px;
-  margin: 10px;
+button:hover {
+    opacity: 0.8;
 }
 
 #result {
-  margin-top: 30px;
-  font-size: 24px;
-  font-weight: bold;
-  min-height: 30px;
+    min-height: 25px;
+    margin: 20px 0;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+#user-choice,
+#computer-choice,
+#user-score,
+#computer-score {
+    font-size: 17px;
+    margin: 10px 0;
+}
+
+#history-list {
+    padding: 0;
+    list-style: none;
+}
+
+#history-list li {
+    margin: 8px 0;
+    padding: 8px;
+    border-radius: 6px;
+    background: #f0f0f0;
+}
+
+#reset {
+    margin-top: 20px;
+}
+
+@media (max-width: 600px) {
+    body {
+        padding: 10px;
+    }
+
+    .game {
+        width: 100%;
+        padding: 20px 15px;
+        border-radius: 12px;
+    }
+
+    h1 {
+        font-size: 25px;
+    }
+
+    button {
+        width: 100%;
+        margin: 5px 0;
+        padding: 12px;
+        font-size: 15px;
+    }
+
+    #result {
+        font-size: 18px;
+    }
+
+    #user-choice,
+    #computer-choice,
+    #user-score,
+    #computer-score {
+        font-size: 15px;
+    }
+
+    #history-list li {
+        font-size: 14px;
+        padding: 7px;
+    }
+}
+
+@media (min-width: 601px) and (max-width: 900px) {
+    .game {
+        max-width: 650px;
+        padding: 25px;
+    }
+
+    h1 {
+        font-size: 30px;
+    }
+
+    button {
+        padding: 12px 18px;
+        font-size: 16px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .game {
+        max-width: 650px;
+        padding: 35px;
+    }
 }
