@@ -170,3 +170,45 @@ button:hover {
     }
 }
 
+html,
+body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.game {
+    width: 100%;
+    max-width: 600px;
+    min-width: 0;
+}
+
+#history-list,
+#history-list li,
+#result,
+#user-choice,
+#computer-choice,
+#user-score,
+#computer-score {
+    max-width: 100%;
+    overflow-wrap: break-word;
+}
+
+@media (max-width: 600px) {
+    body {
+        padding: 10px;
+    }
+
+    .game {
+        width: 100%;
+        padding: 20px 15px;
+    }
+
+    button {
+        max-width: 100%;
+    }
+}
