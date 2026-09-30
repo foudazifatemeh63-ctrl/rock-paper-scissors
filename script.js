@@ -27,6 +27,7 @@ const gameButtons = document.querySelectorAll("#rock, #paper, #scissors");
 const resetButton = document.querySelector("#reset");
 
 
+// تبدیل انتخاب انگلیسی به فارسی
 function translateChoice(choice) {
 
     if (choice === "Rock") {
@@ -44,6 +45,15 @@ function translateChoice(choice) {
 }
 
 
+// Validation
+function isValidChoice(choice) {
+
+    return choices.includes(choice);
+
+}
+
+
+// دکمه‌های بازی
 gameButtons.forEach(function(button) {
 
     button.addEventListener("click", function() {
@@ -52,11 +62,11 @@ gameButtons.forEach(function(button) {
             userChoice = "Rock";
         }
 
-        if (button.id === "paper") {
+        else if (button.id === "paper") {
             userChoice = "Paper";
         }
 
-        if (button.id === "scissors") {
+        else if (button.id === "scissors") {
             userChoice = "Scissors";
         }
 
@@ -67,10 +77,24 @@ gameButtons.forEach(function(button) {
 });
 
 
+// اجرای بازی
 function playGame() {
 
-    computerChoice = choices[Math.floor(Math.random() * 3)];
+    // بررسی انتخاب کاربر
+    if (!isValidChoice(userChoice)) {
 
+        result.textContent = "انتخاب نامعتبر است.";
+
+        return;
+    }
+
+
+    // انتخاب تصادفی کامپیوتر
+    computerChoice =
+        choices[Math.floor(Math.random() * choices.length)];
+
+
+    // نمایش انتخاب‌ها
     userChoiceText.textContent =
         "شما: " + translateChoice(userChoice);
 
@@ -78,6 +102,7 @@ function playGame() {
         "کامپیوتر: " + translateChoice(computerChoice);
 
 
+    // بررسی نتیجه
     if (userChoice === computerChoice) {
 
         result.textContent = "مساوی! 🤝";
@@ -105,6 +130,7 @@ function playGame() {
     }
 
 
+    // نمایش امتیاز
     userScoreText.textContent =
         "امتیاز شما: " + userScore;
 
@@ -112,11 +138,13 @@ function playGame() {
         "امتیاز کامپیوتر: " + computerScore;
 
 
+    // اضافه کردن بازی به تاریخچه
     addToHistory();
 
 }
 
 
+// تاریخچه بازی
 function addToHistory() {
 
     let historyItem = document.createElement("li");
@@ -131,6 +159,8 @@ function addToHistory() {
 
     gameHistory.push(historyItem);
 
+
+    // فقط 5 بازی آخر نمایش داده شود
     if (gameHistory.length > 5) {
 
         let oldItem = gameHistory.shift();
@@ -142,6 +172,7 @@ function addToHistory() {
 }
 
 
+// دکمه شروع دوباره
 resetButton.addEventListener("click", function() {
 
     userScore = 0;
@@ -153,6 +184,7 @@ resetButton.addEventListener("click", function() {
     computerChoice = undefined;
 
     gameHistory = [];
+
 
     userChoiceText.textContent = "شما: -";
 
