@@ -1,160 +1,169 @@
 let userChoice;
+
 let computerChoice;
 
+let choices = ["Rock", "Paper", "Scissors"];
+
 let userScore = 0;
+
 let computerScore = 0;
-
-let gameOver = false;
-
-const choices = ["Rock", "Paper", "Scissors"];
 
 let gameHistory = [];
 
 const result = document.querySelector("#result");
 
 const userChoiceText = document.querySelector("#user-choice");
+
 const computerChoiceText = document.querySelector("#computer-choice");
 
 const userScoreText = document.querySelector("#user-score");
+
 const computerScoreText = document.querySelector("#computer-score");
 
 const historyList = document.querySelector("#history-list");
 
-
-// Game buttons
 const gameButtons = document.querySelectorAll("#rock, #paper, #scissors");
+
+const resetButton = document.querySelector("#reset");
+
+
+function translateChoice(choice) {
+
+    if (choice === "Rock") {
+        return "سنگ";
+    }
+
+    if (choice === "Paper") {
+        return "کاغذ";
+    }
+
+    if (choice === "Scissors") {
+        return "قیچی";
+    }
+
+}
+
 
 gameButtons.forEach(function(button) {
 
-  button.addEventListener("click", function() {
+    button.addEventListener("click", function() {
 
-    userChoice = button.textContent.split(" ")[0];
+        if (button.id === "rock") {
+            userChoice = "Rock";
+        }
 
-    playGame();
+        if (button.id === "paper") {
+            userChoice = "Paper";
+        }
 
-  });
+        if (button.id === "scissors") {
+            userChoice = "Scissors";
+        }
+
+        playGame();
+
+    });
 
 });
 
 
-// Check winner
-function checkWinner() {
-
-  if (
-    (userChoice === "Rock" && computerChoice === "Scissors") ||
-    (userChoice === "Paper" && computerChoice === "Rock") ||
-    (userChoice === "Scissors" && computerChoice === "Paper")
-  ) {
-
-    result.textContent = "You win!";
-    userScore++;
-
-    userScoreText.textContent = "You: " + userScore;
-
-  } else if (
-    (computerChoice === "Rock" && userChoice === "Scissors") ||
-    (computerChoice === "Paper" && userChoice === "Rock") ||
-    (computerChoice === "Scissors" && userChoice === "Paper")
-  ) {
-
-    result.textContent = "Computer wins!";
-    computerScore++;
-
-    computerScoreText.textContent = "Computer: " + computerScore;
-
-  } else {
-
-    result.textContent = "Draw!";
-
-  }
-
-
-  // Best of 5
-  if (userScore === 3) {
-
-    result.textContent = "You won the game!";
-    gameOver = true;
-
-  }
-
-  if (computerScore === 3) {
-
-    result.textContent = "Computer won the game!";
-    gameOver = true;
-
-  }
-
-
-  // History
-  gameHistory.push(result.textContent);
-
-  if (gameHistory.length > 5) {
-    gameHistory.shift();
-  }
-
-  historyList.innerHTML = "";
-
-  for (let i = 0; i < gameHistory.length; i++) {
-
-    const historyItem = document.createElement("li");
-
-    historyItem.textContent = gameHistory[i];
-
-    historyList.appendChild(historyItem);
-  }
-}
-
-
-// Play game
 function playGame() {
 
-  if (gameOver) {
-    return;
-  }
+    computerChoice = choices[Math.floor(Math.random() * 3)];
 
-  if (!userChoice) {
-    result.textContent = "Please choose Rock, Paper, or Scissors.";
-    return;
-  }
+    userChoiceText.textContent =
+        "شما: " + translateChoice(userChoice);
 
-  if (!choices.includes(userChoice)) {
-    result.textContent = "Invalid choice.";
-    return;
-  }
+    computerChoiceText.textContent =
+        "کامپیوتر: " + translateChoice(computerChoice);
 
-  computerChoice = choices[Math.floor(Math.random() * 3)];
 
-  userChoiceText.textContent = "You: " + userChoice;
+    if (userChoice === computerChoice) {
 
-  computerChoiceText.textContent = "Computer: " + computerChoice;
+        result.textContent = "مساوی! 🤝";
 
-  checkWinner();
+    }
+
+    else if (
+        (userChoice === "Rock" && computerChoice === "Scissors") ||
+        (userChoice === "Scissors" && computerChoice === "Paper") ||
+        (userChoice === "Paper" && computerChoice === "Rock")
+    ) {
+
+        userScore++;
+
+        result.textContent = "شما برنده شدید! 🎉";
+
+    }
+
+    else {
+
+        computerScore++;
+
+        result.textContent = "کامپیوتر برنده شد! 🤖";
+
+    }
+
+
+    userScoreText.textContent =
+        "امتیاز شما: " + userScore;
+
+    computerScoreText.textContent =
+        "امتیاز کامپیوتر: " + computerScore;
+
+
+    addToHistory();
+
 }
 
 
-// Reset
-const resetButton = document.querySelector("#reset");
+function addToHistory() {
+
+    let historyItem = document.createElement("li");
+
+    historyItem.textContent =
+        "شما: " + translateChoice(userChoice) +
+        " | کامپیوتر: " + translateChoice(computerChoice) +
+        " | " + result.textContent;
+
+
+    historyList.appendChild(historyItem);
+
+    gameHistory.push(historyItem);
+
+    if (gameHistory.length > 5) {
+
+        let oldItem = gameHistory.shift();
+
+        oldItem.remove();
+
+    }
+
+}
+
 
 resetButton.addEventListener("click", function() {
 
-  userChoice = "";
-  computerChoice = "";
+    userScore = 0;
 
-  userScore = 0;
-  computerScore = 0;
+    computerScore = 0;
 
-  gameOver = false;
+    userChoice = undefined;
 
-  gameHistory = [];
+    computerChoice = undefined;
 
-  userChoiceText.textContent = "You: ";
-  computerChoiceText.textContent = "Computer: ";
+    gameHistory = [];
 
-  userScoreText.textContent = "You: 0";
-  computerScoreText.textContent = "Computer: 0";
+    userChoiceText.textContent = "شما: -";
 
-  result.textContent = "";
+    computerChoiceText.textContent = "کامپیوتر: -";
 
-  historyList.innerHTML = "";
+    userScoreText.textContent = "امتیاز شما: 0";
+
+    computerScoreText.textContent = "امتیاز کامپیوتر: 0";
+
+    result.textContent = "";
+
+    historyList.innerHTML = "";
+
 });
-
