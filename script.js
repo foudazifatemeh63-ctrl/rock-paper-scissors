@@ -10,6 +10,9 @@ let computerScore = 0;
 
 let gameHistory = [];
 
+let gameOver = false;
+
+
 const result = document.querySelector("#result");
 
 const userChoiceText = document.querySelector("#user-choice");
@@ -58,6 +61,12 @@ gameButtons.forEach(function(button) {
 
     button.addEventListener("click", function() {
 
+        // اگر بازی تمام شده باشد، بازی نکن
+        if (gameOver) {
+            return;
+        }
+
+
         if (button.id === "rock") {
             userChoice = "Rock";
         }
@@ -70,6 +79,7 @@ gameButtons.forEach(function(button) {
             userChoice = "Scissors";
         }
 
+
         playGame();
 
     });
@@ -80,7 +90,7 @@ gameButtons.forEach(function(button) {
 // اجرای بازی
 function playGame() {
 
-    // بررسی انتخاب کاربر
+    // Validation
     if (!isValidChoice(userChoice)) {
 
         result.textContent = "انتخاب نامعتبر است.";
@@ -117,7 +127,7 @@ function playGame() {
 
         userScore++;
 
-        result.textContent = "شما برنده شدید! 🎉";
+        result.textContent = "شما برنده این دور شدید! 🎉";
 
     }
 
@@ -125,7 +135,7 @@ function playGame() {
 
         computerScore++;
 
-        result.textContent = "کامپیوتر برنده شد! 🤖";
+        result.textContent = "کامپیوتر برنده این دور شد! 🤖";
 
     }
 
@@ -138,8 +148,39 @@ function playGame() {
         "امتیاز کامپیوتر: " + computerScore;
 
 
-    // اضافه کردن بازی به تاریخچه
+    // اضافه کردن به تاریخچه
     addToHistory();
+
+
+    // بررسی برنده نهایی
+    checkWinner();
+
+}
+
+
+// بررسی اینکه چه کسی به 3 برد رسیده
+function checkWinner() {
+
+    if (userScore === 3) {
+
+        result.textContent =
+            "🎉 شما برنده بازی شدید!";
+
+        gameOver = true;
+
+        return;
+    }
+
+
+    if (computerScore === 3) {
+
+        result.textContent =
+            "🤖 کامپیوتر برنده بازی شد!";
+
+        gameOver = true;
+
+        return;
+    }
 
 }
 
@@ -148,6 +189,7 @@ function playGame() {
 function addToHistory() {
 
     let historyItem = document.createElement("li");
+
 
     historyItem.textContent =
         "شما: " + translateChoice(userChoice) +
@@ -184,6 +226,8 @@ resetButton.addEventListener("click", function() {
     computerChoice = undefined;
 
     gameHistory = [];
+
+    gameOver = false;
 
 
     userChoiceText.textContent = "شما: -";
