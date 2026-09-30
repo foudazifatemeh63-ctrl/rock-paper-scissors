@@ -2,13 +2,21 @@
     box-sizing: border-box;
 }
 
+html,
 body {
     margin: 0;
-    padding: 20px;
+    padding: 0;
+    width: 100%;
+    min-width: 0;
+    overflow-x: hidden;
+}
+
+body {
     min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 20px;
     font-family: Arial, sans-serif;
     background: #f5f5f5;
 }
@@ -16,6 +24,7 @@ body {
 .game {
     width: 100%;
     max-width: 600px;
+    min-width: 0;
     padding: 30px;
     text-align: center;
     background: white;
@@ -26,9 +35,11 @@ body {
 h1 {
     margin-top: 0;
     font-size: 32px;
+    overflow-wrap: break-word;
 }
 
 button {
+    max-width: 100%;
     padding: 12px 20px;
     margin: 5px;
     border: none;
@@ -46,26 +57,34 @@ button:hover {
     margin: 20px 0;
     font-size: 20px;
     font-weight: bold;
+    overflow-wrap: break-word;
 }
 
 #user-choice,
 #computer-choice,
 #user-score,
 #computer-score {
+    max-width: 100%;
     font-size: 17px;
     margin: 10px 0;
+    overflow-wrap: break-word;
 }
 
 #history-list {
+    width: 100%;
+    max-width: 100%;
     padding: 0;
     list-style: none;
+    overflow-wrap: break-word;
 }
 
 #history-list li {
+    max-width: 100%;
     margin: 8px 0;
     padding: 8px;
     border-radius: 6px;
     background: #f0f0f0;
+    overflow-wrap: break-word;
 }
 
 #reset {
@@ -79,7 +98,7 @@ button:hover {
 
     .game {
         width: 100%;
-        padding: 20px 15px;
+        padding: 20px 10px;
         border-radius: 12px;
     }
 
@@ -90,7 +109,7 @@ button:hover {
     button {
         width: 100%;
         margin: 5px 0;
-        padding: 12px;
+        padding: 12px 8px;
         font-size: 15px;
     }
 
@@ -111,6 +130,28 @@ button:hover {
     }
 }
 
+@media (max-width: 350px) {
+    body {
+        padding: 5px;
+    }
+
+    .game {
+        padding: 15px 5px;
+    }
+
+    h1 {
+        font-size: 21px;
+    }
+
+    button {
+        font-size: 14px;
+    }
+
+    #result {
+        font-size: 16px;
+    }
+}
+
 @media (min-width: 601px) and (max-width: 900px) {
     .game {
         max-width: 650px;
@@ -120,11 +161,6 @@ button:hover {
     h1 {
         font-size: 30px;
     }
-
-    button {
-        padding: 12px 18px;
-        font-size: 16px;
-    }
 }
 
 @media (min-width: 1200px) {
@@ -133,3 +169,4 @@ button:hover {
         padding: 35px;
     }
 }
+
