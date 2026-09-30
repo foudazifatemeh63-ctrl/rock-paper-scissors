@@ -1,245 +1,187 @@
 let userChoice;
-
 let computerChoice;
 
-let choices = ["Rock", "Paper", "Scissors"];
-
 let userScore = 0;
-
 let computerScore = 0;
-
-let gameHistory = [];
 
 let gameOver = false;
 
+let choices = ["Rock", "Paper", "Scissors"];
+
+let gameHistory = [];
 
 const result = document.querySelector("#result");
 
 const userChoiceText = document.querySelector("#user-choice");
-
 const computerChoiceText = document.querySelector("#computer-choice");
 
 const userScoreText = document.querySelector("#user-score");
-
 const computerScoreText = document.querySelector("#computer-score");
 
 const historyList = document.querySelector("#history-list");
 
+
 const gameButtons = document.querySelectorAll("#rock, #paper, #scissors");
 
-const resetButton = document.querySelector("#reset");
-
-
-// تبدیل انتخاب انگلیسی به فارسی
-function translateChoice(choice) {
-
-    if (choice === "Rock") {
-        return "سنگ";
-    }
-
-    if (choice === "Paper") {
-        return "کاغذ";
-    }
-
-    if (choice === "Scissors") {
-        return "قیچی";
-    }
-
-}
-
-
-// Validation
-function isValidChoice(choice) {
-
-    return choices.includes(choice);
-
-}
-
-
-// دکمه‌های بازی
 gameButtons.forEach(function(button) {
 
-    button.addEventListener("click", function() {
+  button.addEventListener("click", function() {
 
-        // اگر بازی تمام شده باشد، بازی نکن
-        if (gameOver) {
-            return;
-        }
+    if (button.id === "rock") {
+      userChoice = "Rock";
+    }
 
+    else if (button.id === "paper") {
+      userChoice = "Paper";
+    }
 
-        if (button.id === "rock") {
-            userChoice = "Rock";
-        }
+    else if (button.id === "scissors") {
+      userChoice = "Scissors";
+    }
 
-        else if (button.id === "paper") {
-            userChoice = "Paper";
-        }
+    playGame();
 
-        else if (button.id === "scissors") {
-            userChoice = "Scissors";
-        }
-
-
-        playGame();
-
-    });
+  });
 
 });
+
+
+// بررسی برنده
+function checkWinner() {
+
+  if (
+    (userChoice === "Rock" && computerChoice === "Scissors") ||
+    (userChoice === "Paper" && computerChoice === "Rock") ||
+    (userChoice === "Scissors" && computerChoice === "Paper")
+  ) {
+
+    result.textContent = "شما برنده شدید!";
+    userScore++;
+
+    userScoreText.textContent = "شما: " + userScore;
+
+  } else if (
+    (computerChoice === "Rock" && userChoice === "Scissors") ||
+    (computerChoice === "Paper" && userChoice === "Rock") ||
+    (computerChoice === "Scissors" && userChoice === "Paper")
+  ) {
+
+    result.textContent = "کامپیوتر برنده شد!";
+    computerScore++;
+
+    computerScoreText.textContent = "کامپیوتر: " + computerScore;
+
+  } else {
+
+    result.textContent = "مساوی!";
+
+  }
+
+
+  // بهترین از 5
+  if (userScore === 3) {
+
+    result.textContent = "شما برنده بازی شدید! 🎉";
+    gameOver = true;
+
+  }
+
+  if (computerScore === 3) {
+
+    result.textContent = "کامپیوتر برنده بازی شد! 🤖";
+    gameOver = true;
+
+  }
+
+
+  // تاریخچه
+  gameHistory.push(result.textContent);
+
+  if (gameHistory.length > 5) {
+    gameHistory.shift();
+  }
+
+  historyList.innerHTML = "";
+
+  for (let i = 0; i < gameHistory.length; i++) {
+
+    const historyItem = document.createElement("li");
+
+    historyItem.textContent = gameHistory[i];
+
+    historyList.appendChild(historyItem);
+  }
+}
 
 
 // اجرای بازی
 function playGame() {
 
-    // Validation
-    if (!isValidChoice(userChoice)) {
+  if (gameOver) {
+    return;
+  }
 
-        result.textContent = "انتخاب نامعتبر است.";
+  if (!userChoice) {
+    result.textContent = "لطفاً سنگ، کاغذ یا قیچی را انتخاب کنید.";
+    return;
+  }
 
-        return;
-    }
+  if (!choices.includes(userChoice)) {
+    result.textContent = "انتخاب نامعتبر است.";
+    return;
+  }
 
+  computerChoice = choices[Math.floor(Math.random() * 3)];
 
-    // انتخاب تصادفی کامپیوتر
-    computerChoice =
-        choices[Math.floor(Math.random() * choices.length)];
+  userChoiceText.textContent = "شما: " + translateChoice(userChoice);
 
+  computerChoiceText.textContent = "کامپیوتر: " + translateChoice(computerChoice);
 
-    // نمایش انتخاب‌ها
-    userChoiceText.textContent =
-        "شما: " + translateChoice(userChoice);
-
-    computerChoiceText.textContent =
-        "کامپیوتر: " + translateChoice(computerChoice);
-
-
-    // بررسی نتیجه
-    if (userChoice === computerChoice) {
-
-        result.textContent = "مساوی! 🤝";
-
-    }
-
-    else if (
-        (userChoice === "Rock" && computerChoice === "Scissors") ||
-        (userChoice === "Scissors" && computerChoice === "Paper") ||
-        (userChoice === "Paper" && computerChoice === "Rock")
-    ) {
-
-        userScore++;
-
-        result.textContent = "شما برنده این دور شدید! 🎉";
-
-    }
-
-    else {
-
-        computerScore++;
-
-        result.textContent = "کامپیوتر برنده این دور شد! 🤖";
-
-    }
+  checkWinner();
+}
 
 
-    // نمایش امتیاز
-    userScoreText.textContent =
-        "امتیاز شما: " + userScore;
+// تبدیل انتخاب انگلیسی به فارسی
+function translateChoice(choice) {
 
-    computerScoreText.textContent =
-        "امتیاز کامپیوتر: " + computerScore;
+  if (choice === "Rock") {
+    return "سنگ";
+  }
 
+  if (choice === "Paper") {
+    return "کاغذ";
+  }
 
-    // اضافه کردن به تاریخچه
-    addToHistory();
-
-
-    // بررسی برنده نهایی
-    checkWinner();
+  if (choice === "Scissors") {
+    return "قیچی";
+  }
 
 }
 
 
-// بررسی اینکه چه کسی به 3 برد رسیده
-function checkWinner() {
+// Reset
+const resetButton = document.querySelector("#reset");
 
-    if (userScore === 3) {
-
-        result.textContent =
-            "🎉 شما برنده بازی شدید!";
-
-        gameOver = true;
-
-        return;
-    }
-
-
-    if (computerScore === 3) {
-
-        result.textContent =
-            "🤖 کامپیوتر برنده بازی شد!";
-
-        gameOver = true;
-
-        return;
-    }
-
-}
-
-
-// تاریخچه بازی
-function addToHistory() {
-
-    let historyItem = document.createElement("li");
-
-
-    historyItem.textContent =
-        "شما: " + translateChoice(userChoice) +
-        " | کامپیوتر: " + translateChoice(computerChoice) +
-        " | " + result.textContent;
-
-
-    historyList.appendChild(historyItem);
-
-    gameHistory.push(historyItem);
-
-
-    // فقط 5 بازی آخر نمایش داده شود
-    if (gameHistory.length > 5) {
-
-        let oldItem = gameHistory.shift();
-
-        oldItem.remove();
-
-    }
-
-}
-
-
-// دکمه شروع دوباره
 resetButton.addEventListener("click", function() {
 
-    userScore = 0;
+  userChoice = "";
+  computerChoice = "";
 
-    computerScore = 0;
+  userScore = 0;
+  computerScore = 0;
 
-    userChoice = undefined;
+  gameOver = false;
 
-    computerChoice = undefined;
+  gameHistory = [];
 
-    gameHistory = [];
+  userChoiceText.textContent = "شما: ";
+  computerChoiceText.textContent = "کامپیوتر: ";
 
-    gameOver = false;
+  userScoreText.textContent = "شما: 0";
+  computerScoreText.textContent = "کامپیوتر: 0";
 
+  result.textContent = "";
 
-    userChoiceText.textContent = "شما: -";
-
-    computerChoiceText.textContent = "کامپیوتر: -";
-
-    userScoreText.textContent = "امتیاز شما: 0";
-
-    computerScoreText.textContent = "امتیاز کامپیوتر: 0";
-
-    result.textContent = "";
-
-    historyList.innerHTML = "";
-
+  historyList.innerHTML = "";
 });
+
